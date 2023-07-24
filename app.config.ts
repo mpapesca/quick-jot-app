@@ -4,8 +4,8 @@ import { ExpoConfig } from 'expo/config';
 // import { ExpoConfig } from '@expo/config-types';
 
 const config: ExpoConfig = {
-  name: 'my-app',
-  slug: 'my-app',
+  name: 'Quick Jot',
+  slug: 'quick-jot-app',
 };
 
 export default config;
