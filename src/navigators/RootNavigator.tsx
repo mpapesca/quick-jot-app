@@ -1,21 +1,48 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { DrawerContent } from '../components';
-import { DetailsView, HomeView, SettingsView } from '../views';
+import { Button, Icon } from '@ui-kitten/components';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import NoteView from '../views/NoteView';
+import HistoryView from '../views/HistoryView';
+import SettingsView from '../views/SettingsView';
+import type { TRootStackParamList } from './types';
 
-const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator<TRootStackParamList>();
 
 export const RootNavigator = () => {
   return (
-    <Drawer.Navigator
-      drawerContent={DrawerContent}
-      screenOptions={{
-        drawerType: 'front',
-        drawerStyle: { width: '100%' },
-      }}
-    >
-      <Drawer.Screen name='Home' component={HomeView} options={{ headerShown: false }} />
-      <Drawer.Screen name='Details' component={DetailsView} options={{ headerShown: false }} />
-      <Drawer.Screen name='Settings' component={SettingsView} options={{ headerShown: false }} />
-    </Drawer.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen
+        name='Note'
+        component={NoteView}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerRight: () => (
+            <Button
+              appearance='ghost'
+              accessoryLeft={<Icon name='menu-outline' />}
+              onPress={() => navigation.navigate('History')}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='History'
+        component={HistoryView}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerRight: () => (
+            <Button
+              appearance='ghost'
+              accessoryLeft={<Icon name='settings-outline' />}
+              onPress={() => navigation.navigate('Settings')}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='Settings'
+        component={SettingsView}
+        options={{ headerShown: true, headerRight: () => null }}
+      />
+    </Stack.Navigator>
   );
 };

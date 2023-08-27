@@ -1,28 +1,30 @@
 import 'react-native-gesture-handler';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native';
 
 import * as eva from '@eva-design/eva';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import {
+  ApplicationProvider as ThemeProvider,
+  IconRegistry as IconProvider,
+} from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { Provider as StoreProvider } from 'react-redux';
 
 import { RootNavigator } from './src/navigators';
-
-const Drawer = createDrawerNavigator();
+import { store } from './src/state/store';
 
 export default function App() {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? eva.dark : eva.light;
 
   return (
-    <>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={theme}>
+    <StoreProvider store={store}>
+      <IconProvider icons={EvaIconsPack} />
+      <ThemeProvider {...eva} theme={theme}>
         <NavigationContainer>
           <RootNavigator />
         </NavigationContainer>
-      </ApplicationProvider>
-    </>
+      </ThemeProvider>
+    </StoreProvider>
   );
 }
