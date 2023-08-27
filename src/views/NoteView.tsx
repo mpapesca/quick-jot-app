@@ -22,7 +22,6 @@ const NoteView = ({ route, navigation }: TNoteViewProps) => {
     }
   }, []);
 
-  console.log({ canGoBack: navigation.canGoBack() });
   return (
     <ViewWithInsets>
       <NoteViewTopNavigation route={route} navigation={navigation} />
