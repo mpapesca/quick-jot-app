@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { LegacyRef, useEffect, useRef, useState } from 'react';
 import { Button, Input } from '@ui-kitten/components';
 import { Keyboard, PanResponder } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -20,6 +20,8 @@ const NoteView = ({ route, navigation }: TNoteViewProps) => {
   const [panResponder, setPanResponder] = useState<ReturnType<PanResponder['create']>>();
   const [content, setContent] = useState((pastNote ?? currentNote)?.content ?? '');
 
+  const inputRef = useRef<Input | null>(null);
+
   useEffect(() => {
     if (Platform.OS === 'ios') {
       setPanResponder(
@@ -30,10 +32,12 @@ const NoteView = ({ route, navigation }: TNoteViewProps) => {
     }
     dispatch(getCurrentNote());
     dispatch(getAllNotes());
+    inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
     setContent((pastNote ?? currentNote)?.content ?? '');
+    inputRef.current?.focus();
   }, [currentNote?.date, pastNote?.date]);
 
   const handleStoringNote = async () => {
@@ -62,6 +66,7 @@ const NoteView = ({ route, navigation }: TNoteViewProps) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <Input
+          ref={inputRef}
           status='basic'
           multiline={true}
           textStyle={{ minHeight: '100%' }}
