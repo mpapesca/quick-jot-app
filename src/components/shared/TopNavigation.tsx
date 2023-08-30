@@ -10,6 +10,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
 
 interface ITopNavigationProps {
+  title?: string;
   route: RouteProp<TRootStackParamList, keyof TRootStackParamList>;
   navigation: NativeStackNavigationProp<TRootStackParamList, keyof TRootStackParamList, undefined>;
   rightIcon?: IconElement;
@@ -18,7 +19,13 @@ interface ITopNavigationProps {
   leftCallback?: () => void;
 }
 
-const TopNavigation = ({ route, navigation, rightIcon, rightCallback }: ITopNavigationProps) => {
+const TopNavigation = ({
+  title,
+  route,
+  navigation,
+  rightIcon,
+  rightCallback,
+}: ITopNavigationProps) => {
   const accessoryRight =
     rightIcon && rightCallback
       ? () => <TopNavigationAction icon={rightIcon} onPress={rightCallback} />
@@ -37,7 +44,7 @@ const TopNavigation = ({ route, navigation, rightIcon, rightCallback }: ITopNavi
     <>
       <UiKittenTopNavigation
         alignment='center'
-        title={route.name}
+        title={title ?? route.name}
         accessoryRight={accessoryRight}
         accessoryLeft={accessoryLeft}
       />
